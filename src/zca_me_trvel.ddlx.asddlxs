@@ -1,0 +1,95 @@
+@Metadata.layer: #CUSTOMER
+
+
+@UI:{
+    headerInfo:{
+        typeName: 'Travel',
+        typeNamePlural: 'Travels',
+        title:{
+            type: #STANDARD,
+            value: 'TravelID'
+        }
+    }
+}
+annotate view zca_c_travel with
+{
+  @UI.facet: [
+  {
+     id: 'Travel',
+     purpose: #STANDARD,
+     position: 10,
+     label: 'Travel',
+     type: #IDENTIFICATION_REFERENCE
+  },
+
+  {
+     id: 'Booking',
+     purpose: #STANDARD,
+     position: 20,
+     label: 'Booking11',
+     type: #LINEITEM_REFERENCE,
+     targetElement: '_Booking'
+  }
+
+  ]
+
+  @UI:{
+      lineItem: [{ position: 10, importance: #HIGH }],
+      identification: [{ position: 10 }],
+      selectionField: [{ position: 10 }]
+  }
+  TravelId;
+
+  @UI:{
+      lineItem: [{ position: 20, importance: #HIGH }],
+      identification: [{ position: 20 }],
+      selectionField: [{ position: 20 }]
+  }
+  AgencyId;
+
+  @UI:{
+      lineItem: [{ position: 30, importance: #HIGH }],
+      identification: [{ position: 30 }],
+      selectionField: [{ position: 30 }]
+  }
+  CustomerId;
+
+  @UI:{
+    lineItem: [{ position: 40, importance: #MEDIUM }],
+    identification: [{ position: 40 }],
+    selectionField: [{ position: 40 }]
+  }
+  BeginDate;
+
+  @UI:{
+    lineItem: [{ position: 41, importance: #MEDIUM }],
+    identification: [{ position: 41 }],
+    selectionField: [{ position: 41 }]
+  }
+  EndDate;
+
+  @UI:{
+    identification: [{ position: 42 , label: 'BookingFEES'}]
+  }
+  BookingFee;
+
+  @UI:{
+    identification: [{ position: 43 }]
+  }
+  TotalPrice;
+
+  @UI:{
+    identification: [{ position: 44 }]
+  }
+  Description;
+
+  @UI:{
+    lineItem: [{ position: 50, importance: #HIGH },
+               { type: #FOR_ACTION, dataAction: 'block_Status', label: 'Block' }
+    ]
+
+  }
+  Status;
+
+
+}

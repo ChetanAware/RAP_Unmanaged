@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service Defination for Travel from Projection view - Travel'
+define service Zca_ui_travel {
+  expose zca_c_travel;
+  expose zca_c_booking;
+  expose I_Currency    as Currency;
+  expose I_Country     as Country;
+}

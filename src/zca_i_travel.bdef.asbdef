@@ -1,0 +1,71 @@
+unmanaged implementation in class zca_bp_i_travel unique;
+//strict ( 2 ); //comment CA
+
+define behavior for zca_i_travel alias Travel//alias <alias_name>
+//late numbering
+lock master
+//authorization master ( instance )
+//etag master <field_name>  //comment CA
+etag master Lastchangedat   //Add CA
+{
+  create;
+  update;
+  delete;
+  //  field ( readonly ) TravelId;        //commented CA
+  //  association _Booking { create; }    //commented CA
+
+  //Added CA >>
+  field ( readonly ) TravelId, TotalPrice;
+  field ( mandatory ) AgencyId, CustomerId, BeginDate, EndDate;
+  association _Booking { create ( features : instance ); }
+  action ( features : instance ) block_Status result [1] $self;
+
+  mapping for /dmo/travel control /dmo/s_travel_intx
+    {
+      AgencyId     = agency_id;
+      BeginDate    = begin_date;
+      BookingFee   = booking_fee;
+      CurrencyCode = currency_code;
+      CustomerId   = customer_id;
+      EndDate      = end_date;
+      Status       = status;
+      TotalPrice   = total_price;
+      Description  = description;
+      TravelId     = travel_id;
+    }
+  // << Added CA
+
+}
+
+// define behavior for zca_i_booking //alias <alias_name> //commented CA
+define behavior for zca_i_booking alias Booking implementation in class zca_bp_i_booking unique//alias <alias_name>
+//late numbering
+lock dependent by _Travel
+//authorization dependent by _Travel    //commentend CA
+//etag master <field_name>
+etag dependent by _Travel       //Added CA
+{
+  update;
+  delete;
+  //  field ( readonly ) BookingId, TravelId; //Commented CA
+  //  association _Travel;        //Commented CA
+
+  //Added CA >>
+  field ( readonly ) BookingId, TravelId;
+  field ( mandatory ) BookingDate, CustomerId, AirlineId, ConnectionId, FlightDate;
+  association _Travel;
+
+  mapping for /dmo/booking control /dmo/s_booking_intx
+    {
+      BookingId    = booking_id;
+      AirlineId    = carrier_id;
+      BookingDate  = booking_date;
+      ConnectionId = connection_id;
+      CurrencyCode = currency_code;
+      CustomerId   = customer_id;
+      FlightDate   = flight_date;
+      FlightPrice  = flight_price;
+      TravelId     = travel_id;
+    }
+  // << Added CA
+}
